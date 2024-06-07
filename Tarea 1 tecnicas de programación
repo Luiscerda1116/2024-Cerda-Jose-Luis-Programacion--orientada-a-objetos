@@ -1,0 +1,75 @@
+class Vehiculo:
+    def __init__(self, marca, modelo, año, precio):
+        self.marca = marca
+        self.modelo = modelo
+        self.año = año
+        self.precio = precio
+
+    def __str__(self):
+        return f"{self.marca} {self.modelo} ({self.año}) - Precio: ${self.precio}"
+
+    def aplicar_descuento(self, porcentaje_descuento):
+        self.precio = self.precio * (1 - porcentaje_descuento / 100)
+
+class Automovil(Vehiculo):
+    def __init__(self, marca, modelo, año, precio, combustible):
+        super().__init__(marca, modelo, año, precio)
+        self.combustible = combustible
+
+    def __str__(self):
+        return f"{super().__str__()} - Combustible: {self.combustible}"
+
+    def aplicar_descuento(self, porcentaje_descuento):
+        super().aplicar_descuento(porcentaje_descuento)
+        if self.combustible == "Eléctrico":
+            self.precio = self.precio * 0.9  # Descuento adicional del 10% para autos eléctricos
+
+class Motocicleta(Vehiculo):
+    def __init__(self, marca, modelo, año, precio, cilindrada):
+        super().__init__(marca, modelo, año, precio)
+        self.cilindrada = cilindrada
+
+    def __str__(self):
+        return f"{super().__str__()} - Cilindrada: {self.cilindrada} cc"
+
+class Concesionaria:
+    def __init__(self):
+        self.vehiculos = []
+
+    def agregar_vehiculo(self, vehiculo):
+        self.vehiculos.append(vehiculo)
+
+    def mostrar_vehiculos(self):
+        print("Vehículos disponibles:")
+        for vehiculo in self.vehiculos:
+            print(vehiculo)
+
+    def vender_vehiculo(self, modelo, porcentaje_descuento):
+        for vehiculo in self.vehiculos:
+            if vehiculo.modelo == modelo:
+                vehiculo.aplicar_descuento(porcentaje_descuento)
+                self.vehiculos.remove(vehiculo)
+                print(f"Se ha vendido el {vehiculo.modelo} con un descuento del {porcentaje_descuento}%")
+                return
+        print(f"No se encontró el modelo '{modelo}' en la concesionaria")
+
+# Crear algunos vehículos
+auto1 = Automovil("Toyota", "Corolla", 2020, 25000, "Gasolina")
+auto2 = Automovil("Tesla", "Model 3", 2022, 45000, "Eléctrico")
+moto1 = Motocicleta("Honda", "CBR600RR", 2021, 12000, 599)
+
+# Crear la concesionaria y agregar los vehículos
+concesionaria = Concesionaria()
+concesionaria.agregar_vehiculo(auto1)
+concesionaria.agregar_vehiculo(auto2)
+concesionaria.agregar_vehiculo(moto1)
+
+# Mostrar los vehículos disponibles
+concesionaria.mostrar_vehiculos()
+
+# Vender un vehículo con descuento
+concesionaria.vender_vehiculo("Corolla", 10)
+concesionaria.vender_vehiculo("Model 3", 5)
+
+# Mostrar los vehículos disponibles después de las ventas
+concesionaria.mostrar_vehiculos()
