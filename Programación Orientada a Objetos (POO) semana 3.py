@@ -1,44 +1,28 @@
-class Libro:
-    def __init__(self, titulo, autor, anio):
-        self.titulo = titulo
-        self.autor = autor
-        self.anio = anio
-
-    def __str__(self):
-        return f"Título: {self.titulo}, Autor: {self.autor}, Año: {self.anio}"
-
-class Biblioteca:
+class RegistroPrecipitaciones:
     def __init__(self):
-        self.libros = []
+        self.precipitaciones = []
 
-    def ingresar_libro(self):
-        titulo = input("Ingrese el título del libro: ")
-        autor = input("Ingrese el autor del libro: ")
-        anio = int(input("Ingrese el año de publicación: "))
-        libro = Libro(titulo, autor, anio)
-        self.libros.append(libro)
+    def ingresar_precipitacion_diaria(self, precipitacion):
+        self.precipitaciones.append(precipitacion)
 
-    def buscar_libros_por_autor(self, autor):
-        return [libro for libro in self.libros if libro.autor.lower() == autor.lower()]
+    def ingresar_precipitaciones_semana(self):
+        for i in range(7):
+            precipitacion = float(input(f"Ingrese la precipitación del día {i+1} en mm: "))
+            self.ingresar_precipitacion_diaria(precipitacion)
 
-    def mostrar_libros(self, libros):
-        if libros:
-            for libro in libros:
-                print(libro)
-        else:
-            print("No se encontraron libros.")
+    def calcular_promedio_semanal(self):
+        if len(self.precipitaciones) == 0:
+            return 0.0
+        promedio = sum(self.precipitaciones) / len(self.precipitaciones)
+        return promedio
 
-# Función principal
+# Ejemplo de uso
 def main():
-    biblioteca = Biblioteca()
-    num_libros = int(input("Ingrese el número de libros: "))
-    for _ in range(num_libros):
-        biblioteca.ingresar_libro()
-    
-    autor = input("Ingrese el autor a buscar: ")
-    libros_encontrados = biblioteca.buscar_libros_por_autor(autor)
-    biblioteca.mostrar_libros(libros_encontrados)
+    registro = RegistroPrecipitaciones()
+    print("Ingrese las precipitaciones diarias de la semana en milímetros:")
+    registro.ingresar_precipitaciones_semana()
+    promedio = registro.calcular_promedio_semanal()
+    print(f"El promedio semanal de precipitaciones es: {promedio:.2f} mm")
 
-# Ejecutar la función principal
 if __name__ == "__main__":
     main()
