@@ -1,35 +1,25 @@
-# Función para ingresar los datos de los libros
-def ingresar_libros():
-    libros = []
-    num_libros = int(input("Ingrese el número de libros: "))
-    for _ in range(num_libros):
-        titulo = input("Ingrese el título del libro: ")
-        autor = input("Ingrese el autor del libro: ")
-        anio = int(input("Ingrese el año de publicación: "))
-        libro = {
-            "titulo": titulo,
-            "autor": autor,
-            "anio": anio
-        }
-        libros.append(libro)
-    return libros
+# Función para ingresar datos diarios de precipitaciones
+def ingresar_precipitaciones_diarias():
+    precipitaciones = []
+    for i in range(7):
+        precipitacion = float(input(f"Ingrese la precipitación del día {i+1} en mm: "))
+        precipitaciones.append(precipitacion)
+    return precipitaciones
 
-# Función para buscar libros por autor
-def buscar_libros_por_autor(libros, autor):
-    return [libro for libro in libros if libro["autor"].lower() == autor.lower()]
+# Función para calcular el promedio semanal de precipitaciones
+def calcular_promedio_semanal(precipitaciones):
+    if len(precipitaciones) == 0:
+        return 0.0
+    promedio = sum(precipitaciones) / len(precipitaciones)
+    return promedio
 
-# Función principal
+# Función principal para ejecutar el programa
 def main():
-    libros = ingresar_libros()
-    autor = input("Ingrese el autor a buscar: ")
-    libros_encontrados = buscar_libros_por_autor(libros, autor)
-    if libros_encontrados:
-        print(f"Libros encontrados de {autor}:")
-        for libro in libros_encontrados:
-            print(f"Título: {libro['titulo']}, Año: {libro['anio']}")
-    else:
-        print(f"No se encontraron libros de {autor}.")
+    print("Ingrese las precipitaciones diarias de la semana en milímetros:")
+    precipitaciones = ingresar_precipitaciones_diarias()
+    promedio = calcular_promedio_semanal(precipitaciones)
+    print(f"El promedio semanal de precipitaciones es: {promedio:.2f} mm")
 
-# Ejecutar la función principal
+# Ejecutar el programa principal
 if __name__ == "__main__":
     main()
